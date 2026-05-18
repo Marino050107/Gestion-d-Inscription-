@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMIT Labs | Gestion des Inscriptions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0b1528 0%, #050914 100%);
+            --text-main: #ffffff;     
+            --text-muted: #94a3b8;    
+            --accent-blue: #38bdf8;   
+            --border-discret: rgba(255, 255, 255, 0.08);
+            --input-bg: rgba(255, 255, 255, 0.03);
+            --badge-da2i: #38bdf8;
+            --badge-icm: #ec4899;
+            --badge-aes: #10b981;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-top: 80px;
+        }
+
+        /* NAVIGATION */
+        .emit-header {
+            background: rgba(5, 9, 20, 0.9);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            border-bottom: 1px solid var(--border-discret);
+        }
+        .nav-container {
+            max-width: 1000px; margin: 0 auto; padding: 15px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo { font-weight: 800; font-size: 1.3rem; letter-spacing: 0.5px; }
+        .logo span { color: var(--accent-blue); }
+        .btn-back {
+            color: var(--text-main); text-decoration: none; font-size: 0.85rem; font-weight: 600;
+            border: 1px solid var(--border-discret); padding: 8px 18px; border-radius: 30px;
+            transition: 0.3s;
+        }
+        .btn-back:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+
+        /* RAFIKRA LEHIBE */
+        .main-wrapper {
+            max-width: 1000px; 
+            margin: 0 auto;
+            padding: 40px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px; 
+        }
+
+        /* ANIMATION TITRE MIFAFA AUTOMATIQUE (TYPEWRITER EFFECT) */
+        .title-container {
+            margin-bottom: 10px;
+        }
+        .title-container h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            display: inline-block;
+        }
+        .typing-text {
+            color: var(--accent-blue);
+            border-right: 3px solid var(--accent-blue);
+            white-space: nowrap;
+            animation: blink 0.75s step-end infinite;
+            padding-right: 5px;
+        }
+
+        @keyframes blink {
+            from, to { border-color: transparent }
+            50% { border-color: var(--accent-blue); }
+        }
+
+        /* BARRE DE RECHERCHE */
+        .search-container {
+            position: relative;
+            width: 100%;
+        }
+        .search-input {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--border-discret);
+            padding: 16px 20px 16px 50px;
+            border-radius: 12px;
+            color: #ffffff;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+        .search-input:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.08);
+        }
+        .search-icon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            pointer-events: none;
+        }
+
+        /* REHEFA RECHERCHe TSY MISY INONA */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+            border: 1px dashed var(--border-discret);
+            border-radius: 12px;
+            display: none;
+        }
+
+        /* TABLAO MANDIDY (RESPONSIVE TABLE) */
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border: 1px solid var(--border-discret);
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.01);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background: rgba(5, 9, 20, 0.6);
+            padding: 16px;
+            font-weight: 700;
+            color: #e2e8f0;
+            border-bottom: 1px solid var(--border-discret);
+            font-size: 0.88rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid var(--border-discret);
+            color: var(--text-muted);
+            vertical-align: middle;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+            color: #ffffff;
+        }
+
+        .student-name {
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        /* BADGES HO AN'NY TARANJA (MENTIONS) */
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .badge-da2i { background: rgba(56, 189, 248, 0.15); color: var(--badge-da2i); }
+        .badge-icm { background: rgba(236, 72, 153, 0.15); color: var(--badge-icm); }
+        .badge-aes { background: rgba(16, 185, 129, 0.15); color: var(--badge-aes); }
+
+        /* BOKOTRA ACTION (FAFA) */
+        .btn-delete {
+            background: transparent;
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        .btn-delete:hover {
+            background: #ef4444;
+            color: #ffffff;
+            border-color: #ef4444;
+        }
+
+        .footer { text-align: center; padding: 40px 0; border-top: 1px solid var(--border-discret); margin-top: 40px; color: var(--text-muted); font-size: 0.8rem; opacity: 0.5; }
+        
+        @media (max-width: 768px) {
+            table { font-size: 0.88rem; }
+            th, td { padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="emit-header">
+        <div class="nav-container">
+            <div class="logo">EMIT <span>Dashboard</span></div>
+            <a href="index.html" class="btn-back">← Accueil</a>
+        </div>
+    </header>
+
+    <div class="main-wrapper">
+        
+        <div class="title-container">
+            <h2>Gestion des <span class="typing-text" id="dynamic-title">Inscriptions</span></h2>
+        </div>
+
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchInput" class="search-input" placeholder="Rechercher par nom, email ou mention (DA2I, ICM, AES)...">
+        </div>
+
+        <div class="table-wrapper">
+            <table id="adminTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Nom Complet</th>
+                        <th>E-mail</th>
+                        <th>Téléphone</th>
+                        <th>Mention</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    </tbody>
+            </table>
+        </div>
+
+        <div id="emptyState" class="empty-state">
+            <p id="emptyMessage">Aucun étudiant inscrit pour le moment.</p>
+        </div>
+
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 EMIT Université | Secrétariat Numérique</p>
+    </footer>
+
+    <script>
+        // 1. ANIMATION TITRE MIFAFA AUTOMATIQUE (TYPEWRITER)
+        const words = ["Inscriptions", "Parcours DA2I", "Parcours ICM", "Parcours AES"];
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const dynamicTitleElement = document.getElementById("dynamic-title");
+
+        function typeEffect() {
+            const currentWord = words[wordIndex];
+            
+            if (isDeleting) {
+                // Fafana ny litera iray
+                dynamicTitleElement.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                // Soratana ny litera iray
+                dynamicTitleElement.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            let typingSpeed = isDeleting ? 50 : 100; // Haingana kokoa rehefa mifafa
+
+            if (!isDeleting && charIndex === currentWord.length) {
+                // Miandry kely rehefa feno ilay teny vao mifafa
+                typingSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length; // Mifindra amin'ny teny manaraka
+                typingSpeed = 500;
+            }
+
+            setTimeout(typeEffect, typingSpeed);
+        }
+
+        // Mandefa ny animation rehefa misokatra ny pejy
+        document.addEventListener("DOMContentLoaded", () => {
+            typeEffect();
+            loadInscriptions();
+        });
+
+
+        // 2. FAKANA SY FAMPISEHOANA NY REHETRA NISORATRA AVY AMIN'NY LOCALSTORAGE
+        function loadInscriptions() {
+            const tableBody = document.getElementById('tableBody');
+            const emptyState = document.getElementById('emptyState');
+            const emptyMessage = document.getElementById('emptyMessage');
+            
+            // Alaina daholo ny data voatahiry avy amin'ireo pejy 3
+            let inscriptions = JSON.parse(localStorage.getItem('inscriptions')) || [];
+
+            // Alahatra araka ny daty vaovao indrindra (descending order)
+            inscriptions.sort((a, b) => b.id - a.id);
+
+            if (inscriptions.length === 0) {
+                tableBody.innerHTML = '';
+                emptyState.style.display = 'block';
+                emptyMessage.textContent = "Aucun étudiant inscrit pour le moment.";
+                return;
+            }
+
+            emptyState.style.display = 'none';
+            tableBody.innerHTML = '';
+
+            inscriptions.forEach(student => {
+                const tr = document.createElement('tr');
+                
+                // Mifehy ny lokon'ny Badge arakaraka ny Mention
+                let badgeClass = 'badge-da2i';
+                if(student.mention === 'ICM') badgeClass = 'badge-icm';
+                if(student.mention === 'AES') badgeClass = 'badge-aes';
+
+                tr.innerHTML = `
+                    <td>${student.date || '---'}</td>
+                    <td class="student-name">${student.nom}</td>
+                    <td>${student.email}</td>
+                    <td>${student.telephone}</td>
+                    <td><span class="badge ${badgeClass}">${student.mention}</span></td>
+                    <td>
+                        <button class="btn-delete" onclick="deleteInscrit(${student.id})">Supprimer</button>
+                    </td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+
+        // 3. ANDALANA HAFANANA MPIDIRTRA IRAY (SUPPRIMER)
+        function deleteInscrit(id) {
+            if(confirm("Tena hovafanao tokoa ve ity mpianatra ity?")) {
+                let inscriptions = JSON.parse(localStorage.getItem('inscriptions')) || [];
+                inscriptions = inscriptions.filter(student => student.id !== id);
+                localStorage.setItem('inscriptions', JSON.stringify(inscriptions));
+                
+                // Averina alaina indray ny lisitra rehefa voafafa
+                loadInscriptions();
+            }
+        }
+
+
+        // 4. ANDALANA MIKAROKA REHEFA MANORATRA (BARRE DE RECHERCHE IN REAL-TIME)
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const filter = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#tableBody tr');
+            const emptyState = document.getElementById('emptyState');
+            const emptyMessage = document.getElementById('emptyMessage');
+            let matchCount = 0;
+
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if(text.includes(filter)) {
+                    row.style.display = '';
+                    matchCount++;
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+
+            if (matchCount === 0 && rows.length > 0) {
+                emptyState.style.display = 'block';
+                emptyMessage.textContent = `Aucun résultat trouvé pour "${e.target.value}"`;
+            } else if (rows.length > 0) {
+                emptyState.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

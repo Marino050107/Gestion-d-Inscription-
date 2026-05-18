@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EMIT Labs | Inscription ICM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght=300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0b1528 0%, #050914 100%);
+            --text-main: #ffffff;     
+            --text-muted: #94a3b8;    
+            --accent-blue: #38bdf8;   
+            --border-discret: rgba(255, 255, 255, 0.08);
+            --input-bg: rgba(255, 255, 255, 0.03);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Plus Jakarta Sans', Arial, sans-serif;
+            background: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-top: 80px;
+        }
+
+        /* NAVIGATION */
+        .emit-header {
+            background: rgba(5, 9, 20, 0.9);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
+            border-bottom: 1px solid var(--border-discret);
+        }
+        .nav-container {
+            max-width: 750px; margin: 0 auto; padding: 15px 24px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .logo { font-weight: 800; font-size: 1.3rem; letter-spacing: 0.5px; }
+        .logo span { color: var(--accent-blue); }
+        .btn-back {
+            color: var(--text-main); text-decoration: none; font-size: 0.85rem; font-weight: 600;
+            border: 1px solid var(--border-discret); padding: 8px 18px; border-radius: 30px;
+            transition: 0.3s;
+        }
+        .btn-back:hover { border-color: var(--accent-blue); color: var(--accent-blue); }
+
+        /* RAFIKRA LEHIBE ANDALANA TOKANA NADIO */
+        .main-wrapper {
+            max-width: 750px; 
+            margin: 0 auto;
+            padding: 40px 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 70px; 
+        }
+
+        /* DEFINITIONS NY ANIMATIONS (FADE-IN EFFECT) */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-section {
+            animation: fadeInUp 0.8s ease backwards;
+        }
+        
+        .sec-1 { animation-delay: 0.1s; }
+        .sec-2 { animation-delay: 0.3s; }
+        .sec-3 { animation-delay: 0.5s; }
+
+        /* --------------------------------------------------------------------------
+           1. AMPAHANY REHETRA MOMBA NY INSCRIPTION (AMBONY)
+           -------------------------------------------------------------------------- */
+        .section-inscription h2 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+        .section-inscription .subtitle {
+            color: var(--accent-blue);
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 30px;
+            display: block;
+        }
+
+        .pure-form { width: 100%; }
+        
+        .field-group {
+            display: flex;
+            flex-direction: column; 
+            gap: 8px;
+            margin-bottom: 22px;
+        }
+        .field-group label {
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: #e2e8f0;
+        }
+        .field-group input, .field-group textarea {
+            width: 100%;
+            background: var(--input-bg); 
+            border: 1px solid var(--border-discret);
+            padding: 14px;
+            border-radius: 8px;
+            color: #ffffff;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+        .field-group input:focus, .field-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-blue); 
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+        }
+        .field-group textarea { resize: vertical; min-height: 110px; }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            background: var(--accent-blue); 
+            color: #050914;
+            border: none;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 0.98rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+            margin-top: 10px;
+        }
+        .btn-submit:hover { opacity: 0.9; transform: scale(1.01); }
+        .btn-submit:active { transform: scale(0.99); }
+
+        .success-box {
+            margin-top: 20px; border: 1px solid #34d399; color: #34d399;
+            padding: 14px; border-radius: 8px; text-align: center; font-weight: 600;
+        }
+
+        /* --------------------------------------------------------------------------
+           2. AMPAHANY REHETRA MOMBA NY DESCRIPTION LAVA (AMBANY)
+           -------------------------------------------------------------------------- */
+        .section-info-icm {
+            border-top: 1px solid var(--border-discret);
+            padding-top: 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        
+        .info-block h3 {
+            font-size: 0.85rem;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+        .info-block p {
+            color: var(--text-muted);
+            font-size: 0.98rem;
+            text-align: justify;
+            margin-bottom: 16px;
+            text-indent: 20px; 
+        }
+        .info-block ul {
+            list-style: none;
+            padding-left: 10px;
+            margin-bottom: 16px;
+        }
+        .info-block ul li {
+            position: relative;
+            padding-left: 20px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+        .info-block ul li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--accent-blue);
+        }
+
+        /* --------------------------------------------------------------------------
+           3. AMPAHANY REHETRA MOMBA NY CHEF DE MENTION (AMPOLOANY TSARA)
+           -------------------------------------------------------------------------- */
+        .section-chef {
+            border-top: 1px solid var(--border-discret);
+            padding-top: 50px;
+        }
+        .chef-layout-centered {
+            display: flex;
+            flex-direction: column;   
+            align-items: center;      
+            text-align: center;       
+            gap: 25px;
+        }
+        .chef-img-box img {
+            width: 170px;
+            height: auto;
+            border-radius: 50%;       
+            object-fit: cover;
+            border: 2px solid var(--accent-blue); 
+            padding: 4px;
+            transition: transform 0.3s ease;
+        }
+        .chef-img-box img:hover {
+            transform: scale(1.05);   
+        }
+        .chef-details h4 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .chef-details .role {
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .chef-details .grade {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            max-width: 500px;
+            margin: 0 auto 15px auto;
+        }
+        .chef-contact {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            opacity: 0.8;
+            border-top: 1px solid var(--border-discret);
+            padding-top: 12px;
+            display: inline-block;
+        }
+
+        .footer { text-align: center; padding: 40px 0; border-top: 1px solid var(--border-discret); margin-top: 40px; color: var(--text-muted); font-size: 0.8rem; opacity: 0.5; }
+    </style>
+</head>
+<body>
+
+    <header class="emit-header">
+        <div class="nav-container">
+            <div class="logo">EMIT <span>ICM</span></div>
+            <a href="index.html" class="btn-back">← Retour</a>
+        </div>
+    </header>
+
+    <div class="main-wrapper">
+        
+        <section class="section-inscription animate-section sec-1">
+            <h2>Candidature Directe</h2>
+            <span class="subtitle">Formulaire d'inscription en ligne</span>
+            
+            <div class="pure-form">
+                <form id="icmForm">
+                    <div class="field-group">
+                        <label for="nom">Nom complet</label>
+                        <input type="text" id="nom" placeholder="Ex: HERIFINIAVANA FY JAUZE Marino" required>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="email">Adresse E-mail</label>
+                        <input type="email" id="email" placeholder="Ex: marinoexample.com" required>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="telephone">Numéro de téléphone</label>
+                        <input type="tel" id="telephone" placeholder="Ex: +261 34 00 000 00" required>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="bacc">Année d'obtention du Baccalauréat</label>
+                        <input type="number" id="bacc" placeholder="Ex: 2025" required>
+                    </div>
+
+                    <div class="field-group">
+                        <label for="motivation">Pourquoi voulez-vous intégrer le parcours ICM ?</label>
+                        <textarea id="motivation" placeholder="Soraty eto ny antony handinihana ny ICM..." required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Envoyer ma candidature</button>
+                </form>
+
+                <div id="messageSuccess" class="success-box" style="display: none;"></div>
+            </div>
+        </section>
+
+
+        <section class="section-info-icm animate-section sec-2">
+            
+            <div class="info-block">
+                <h3>Présentation du Parcours</h3>
+                <p>Le parcours Internet, Communication & Médias (ICM) est une formation pluridisciplinaire d'excellence au sein de l'EMIT, axée sur les métiers du web créatif, du multimédia et de la communication digitale. Ce cursus forme des professionnels capables d'allier les compétences techniques de l'informatique internet avec la sensibilité graphique et stratégique des nouveaux médias.</p>
+                <p>À l'ère des réseaux sociaux et du marketing digital, les diplômés d'ICM jouent un rôle pivot en concevant l'identité visuelle, l'expérience utilisateur (UX/UI) et les stratégies de contenu interactif indispensables au développement de l'image de marque des entreprises.</p>
+            </div>
+
+            <div class="info-block">
+                <h3>Objectifs Pédagogiques & Compétences Visées</h3>
+                <p>La formation ICM vise à doter les étudiants d'un profil polyvalent et créatif. Au terme de leur cursus, les étudiants maîtriseront :</p>
+                <ul>
+                    <li>La conception graphique avancée et le design d'interface (UI/UX Design).</li>
+                    <li>La production de contenus multimédias (Audio, Vidéo, Animation web).</li>
+                    <li>Le développement Front-End pour l'intégration de sites web interactifs et responsives.</li>
+                    <li>La gestion de projet de communication, le Community Management et le Webmarketing.</li>
+                </ul>
+            </div>
+
+            <div class="info-block">
+                <h3>Conditions & Modalités d'Accès</h3>
+                <p><strong>Accès en S1 :</strong> La sélection se fait par voie de Concours après obtention du diplôme de Baccalauréat toutes séries (Scientifiques, Littéraires ou Techniques) ayant une forte appétence pour le numérique, le design et la communication.</p>
+                <p><strong>Passerelles (En S2, S3, S4, S5) :</strong> Admission possible sur étude de dossier et validation des crédits académiques par la commission pédagogique de la mention.</p>
+            </div>
+
+            <div class="info-block">
+                <h3>Volume d'Enseignement</h3>
+                <p>Le parcours est structuré autour de <strong>15 Unités d'Enseignement (UE)</strong> capitalisables, couvrant l'ensemble du programme de Licence et associant cours théoriques, ateliers créatifs et stages professionnels obligatoires.</p>
+            </div>
+
+        </section>
+
+
+        <section class="section-chef animate-section sec-3">
+            <div class="chef-layout-centered">
+                <div class="chef-img-box">
+                    <img src="mricm.jpg" alt="JOROTIANA Chiria" onerror="this.src='https://via.placeholder.com/170'">
+                </div>
+                <div class="chef-details">
+                    <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); font-weight: 700; display: block; margin-bottom: 4px;">Enseignant responsable</span>
+                    <h4>JOROTIANA Chiria</h4>
+                    <p class="role">Responsable de Mention Multimédia / Niveau Licence</p>
+                    <p class="grade">Docteur, Expert en Technologies Réseaux, Systèmes d'Information et Communication Médias.</p>
+                    <span class="chef-contact">✉️ renseignement@emit.mg | 📞 +261 33 70 470 00</span>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 EMIT Université | Espace Inscription Numérique</p>
+    </footer>
+
+    <script>
+        document.getElementById('icmForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const nouvelInscrit = {
+                id: Date.now(),
+                nom: document.getElementById('nom').value,
+                email: document.getElementById('email').value,
+                telephone: document.getElementById('telephone').value,
+                bacc: document.getElementById('bacc').value,
+                motivation: document.getElementById('motivation').value,
+                mention: 'ICM',
+                date: new Date().toLocaleDateString('fr-FR')
+            };
+
+            let listeInscriptions = JSON.parse(localStorage.getItem('inscriptions')) || [];
+            listeInscriptions.push(nouvelInscrit);
+            localStorage.setItem('inscriptions', JSON.stringify(listeInscriptions));
+
+            const alertBox = document.getElementById('messageSuccess');
+            alertBox.innerHTML = `Misaotra ${nouvelInscrit.nom}, voatahiry soa aman-tsara ny fisoratana anaranao ao amin'ny ICM!`;
+            alertBox.style.display = 'block';
+
+            document.getElementById('icmForm').reset();
+            alertBox.scrollIntoView({ behavior: 'smooth' });
+        });
+    </script>
+
+</body>
+</html>
